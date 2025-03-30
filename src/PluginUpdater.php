@@ -14,7 +14,7 @@ use stdClass;
  * in the format as shown below in the `prepare_update_object` method.
  *
  * @author Chris Jayden
- * @link   https://wplatest.co
+ * @link   https://wpupdatehub.com
  * @license GPL-2.0-or-later
  * @package WpLatest\Updater
  */
@@ -55,8 +55,8 @@ class PluginUpdater {
 	 * @var array
 	 */
 	protected array $default_options = array(
-		'hostname'  => 'wplatest.co',
-		'api_url'   => 'https://wplatest.co/api/v1/plugin/update',
+		'hostname'  => 'wpupdatehub.com',
+		'api_url'   => 'https://wpupdatehub.com/api/v1/plugin/update',
 		'telemetry' => true,
 	);
 
