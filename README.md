@@ -1,10 +1,10 @@
 
-## WPLatest.co Plugin Updater
+## WordPress Plugin Updater
 
-This is a simple plugin updater for WordPress plugins. It allows you to check for updates from the WPLatest.co API and display a notice in the WordPress admin area when an update is available.
+This is a simple plugin updater for WordPress plugins. It allows you to check for updates from the WPUpdateHub.com API and display a notice in the WordPress admin area when an update is available.
 
 > [!IMPORTANT]
-> This plugin updater is designed to work with plugins hosted on WPLatest.co. However you can modify it to work with any other API.
+> This plugin updater is designed to work with plugins hosted on WPUpdateHub.com. However you can use this to integrate the updater into your own plugin. Then all you need is to create a backend endpoint to check and serve the update.
 
 ## Minimum requirements
 
@@ -71,9 +71,9 @@ class ExamplePlugin {
 	public function initialise() {
 		$options = array(
 			'file'      => __FILE__,
-			'id'        => 'your-plugin-id-from-wplatest-co',
-			'secret'	=> 'your-plugin-secret-from-wplatest-co',
-			// Optional configuration, you don't need to set these if you're using the WPLatest.co API.
+			'id'        => 'your-plugin-id',
+			'secret'	=> 'your-plugin-secret',
+			// Optional configuration, you don't need to set these if you're using the wpupdatehub.com API.
 			'api_url'   => 'https://api.yoursite.com',
 			// corresponds with the "Update URI" field in your plugin's header.
 			'hostname'  => 'yoursite.com',
@@ -87,4 +87,4 @@ class ExamplePlugin {
 $wp_latest_test_plugin = new ExamplePlugin();
 ```
 
-Replace `'your-plugin-id-from-wplatest-co'` with the actual ID provided to you by WPLatest.co for your plugin.
+Replace `'your-plugin-id'` with the actual ID provided to you by WPUpdateHub.com for your plugin.

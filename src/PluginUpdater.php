@@ -9,7 +9,7 @@ use stdClass;
 
 /**
  * A class that makes it easy to automatically update WordPress plugins from a remote server.
- * This class is designed to work with the WPLatest.co API, however, it can be modified to work with any API.
+ * This class is designed to work with the WPUpdateHub.com API, however, it can be modified to work with any API.
  * As the API will be called with the plugin slug and unique ID, the API should return the plugin information
  * in the format as shown below in the `prepare_update_object` method.
  *
@@ -40,7 +40,7 @@ class PluginUpdater {
 	 *     An array of options for the updater.
 	 *
 	 *     @type file   $file The path to the plugin file.
-	 *     @type string $id   The unique ID for the plugin. If you're using WPLatest.co, you can find this ID in the dashboard.
+	 *     @type string $id   The unique ID for the plugin. If you're using WPUpdateHub.com, you can find this ID in the dashboard.
 	 *     @type string $hostname The hostname of the site. IMPORTANT: this must match the `Update URI` in the plugin header.
 	 *     @type string $api_url The URL to the API endpoint. It sents along the plugin slug and your unique ID.
 	 *     @type string $secret The secret key for the API. This is used to verify the request.
@@ -180,7 +180,7 @@ class PluginUpdater {
 
 		if ( is_wp_error( $response ) || wp_remote_retrieve_response_code( $response ) !== 200 ) {
 			// phpcs:ignore
-			error_log( 'WPLatest API request failed: ' . wp_json_encode( $response ) );
+			error_log( 'WPUpdateHub API request failed: ' . wp_json_encode( $response ) );
 
 			return false;
 		}
