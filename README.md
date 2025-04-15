@@ -20,7 +20,7 @@ To integrate this updater into your plugin, you need to require it via Composer 
 ### Via Composer
 
 ```bash
-composer require wplatest/updater
+composer require wpupdatehub/updater
 ```
 
 ### Manual
@@ -51,7 +51,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 // Include the Composer autoloader in your plugin.
 require_once 'vendor/autoload.php';
 
-use WpLatest\Updater\PluginUpdater;
+use WpUpdateHub\Updater\PluginUpdater;
 
 /**
  * Include the updater class.

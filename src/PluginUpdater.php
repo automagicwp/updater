@@ -2,7 +2,7 @@
 
 declare( strict_types=1 );
 
-namespace WpLatest\Updater;
+namespace WpUpdateHub\Updater;
 
 use InvalidArgumentException;
 use stdClass;
@@ -16,7 +16,7 @@ use stdClass;
  * @author Chris Jayden
  * @link   https://wpupdatehub.com
  * @license GPL-2.0-or-later
- * @package WpLatest\Updater
+ * @package WpUpdateHub\Updater
  */
 class PluginUpdater {
 	/**

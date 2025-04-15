@@ -1,9 +1,9 @@
 {
-    "name": "wplatest/updater",
+    "name": "wpupdatehub/updater",
     "description": "A simple and lightweight package to update your WordPress plugins and themes from a private repository.",
     "homepage": "https://github.com/wplatest/updater/",
     "type": "library",
-    "version": "1.4.10",
+    "version": "2.0.0",
     "license": "GPL-3.0-or-later",
     "authors": [
         {
@@ -13,7 +13,7 @@
     ],
     "autoload": {
         "psr-4": {
-            "WpLatest\\Updater\\": "src/"
+            "WpUpdateHub\\Updater\\": "src/"
         }
     },
     "require": {
