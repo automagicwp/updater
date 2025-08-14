@@ -72,7 +72,8 @@ class ExamplePlugin {
 		$options = array(
 			'file'      => __FILE__,
 			'id'        => 'your-plugin-id',
-			'secret'	=> 'your-plugin-secret',
+			// Optional: Leave out 'secret' if no license key is required
+			'secret'    => 'your-plugin-secret',
 			// Optional configuration, you don't need to set these if you're using the wpupdatehub.com API.
 			'api_url'   => 'https://api.yoursite.com',
 			// corresponds with the "Update URI" field in your plugin's header.
