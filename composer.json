@@ -1,7 +1,7 @@
 {
-    "name": "wpupdatehub/updater",
-    "description": "A simple and lightweight package to update your WordPress plugins and themes from a private repository.",
-    "homepage": "https://github.com/wplatest/updater/",
+    "name": "automagicwp/updater",
+    "description": "A simple and lightweight package to update your WordPress plugins from AutomagicWP.",
+    "homepage": "https://automagicwp.com",
     "type": "library",
     "version": "2.0.0",
     "license": "GPL-3.0-or-later",
@@ -13,7 +13,7 @@
     ],
     "autoload": {
         "psr-4": {
-            "WpUpdateHub\\Updater\\": "src/"
+            "AutomagicWP\\Updater\\": "src/"
         }
     },
     "require": {

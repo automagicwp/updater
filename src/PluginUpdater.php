@@ -2,21 +2,21 @@
 
 declare( strict_types=1 );
 
-namespace WpUpdateHub\Updater;
+namespace AutomagicWP\Updater;
 
 use InvalidArgumentException;
 use stdClass;
 
 /**
  * A class that makes it easy to automatically update WordPress plugins from a remote server.
- * This class is designed to work with the WPUpdateHub.com API, however, it can be modified to work with any API.
+ * This class is designed to work with the AutomagicWP.com API, however, it can be modified to work with any API.
  * As the API will be called with the plugin slug and unique ID, the API should return the plugin information
  * in the format as shown below in the `prepare_update_object` method.
  *
  * @author Chris Jayden
- * @link   https://wpupdatehub.com
+ * @link   https://automagicwp.com
  * @license GPL-2.0-or-later
- * @package WpUpdateHub\Updater
+ * @package AutomagicWP\Updater
  */
 class PluginUpdater {
 	/**
@@ -55,8 +55,8 @@ class PluginUpdater {
 	 * @var array
 	 */
 	protected array $default_options = array(
-		'hostname'  => 'wpupdatehub.com',
-		'api_url'   => 'https://wpupdatehub.com/api/v1/plugin/update',
+		'hostname'  => 'automagicwp.com',
+		'api_url'   => 'https://automagicwp.com/api/v1/plugin/update',
 		'telemetry' => true,
 	);
 
@@ -180,7 +180,7 @@ class PluginUpdater {
 
 		if ( is_wp_error( $response ) || wp_remote_retrieve_response_code( $response ) !== 200 ) {
 			// phpcs:ignore
-			error_log( 'WPUpdateHub API request failed: ' . wp_json_encode( $response ) );
+			error_log( 'AutomagicWP API request failed: ' . wp_json_encode( $response ) );
 
 			return false;
 		}
