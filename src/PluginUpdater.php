@@ -14,7 +14,7 @@ use stdClass;
  * in the format as shown below in the `prepare_update_object` method.
  *
  * @author Chris Jayden
- * @link   https://automagicwp.com
+ * @link   https://www.automagicwp.com
  * @license GPL-2.0-or-later
  * @package AutomagicWP\Updater
  */
@@ -39,12 +39,13 @@ class PluginUpdater {
 	 * @property array $options {
 	 *     An array of options for the updater.
 	 *
-	 *     @type file   $file The path to the plugin file.
-	 *     @type string $id   The unique ID for the plugin. If you're using WPUpdateHub.com, you can find this ID in the dashboard.
-	 *     @type string $hostname The hostname of the site. IMPORTANT: this must match the `Update URI` in the plugin header.
-	 *     @type string $api_url The URL to the API endpoint. It sents along the plugin slug and your unique ID.
-	 *     @type string $secret The secret key for the API. This is used to verify the request.
-	 *     @type bool $telemetry Whether to send anonymous data to the API. Default is true.
+	 *     @type file   $file       The path to the plugin file.
+	 *     @type string $id         The unique ID for the plugin. If you're using AutomagicWP.com, you can find this ID in the dashboard.
+	 *     @type string $hostname   The hostname of the site. IMPORTANT: this must match the `Update URI` in the plugin header.
+	 *     @type string $api_url    The URL to the update API endpoint.
+	 *     @type string $config_url The URL to the branding config API endpoint.
+	 *     @type string $secret     The license key or API key for this site. Used for private plugins and white-label branding.
+	 *     @type bool   $telemetry  Whether to send anonymous data to the API. Default is true.
 	 * }
 	 */
 	protected array $options;
@@ -55,9 +56,10 @@ class PluginUpdater {
 	 * @var array
 	 */
 	protected array $default_options = array(
-		'hostname'  => 'automagicwp.com',
-		'api_url'   => 'https://automagicwp.com/api/v1/plugin/update',
-		'telemetry' => true,
+		'hostname'   => 'automagicwp.com',
+		'api_url'    => 'https://www.automagicwp.com/api/v1/plugin/update',
+		'config_url' => 'https://www.automagicwp.com/api/v1/plugin/config',
+		'telemetry'  => true,
 	);
 
 	/**
@@ -162,6 +164,69 @@ class PluginUpdater {
 		$result->slug = $this->plugin_slug;
 
 		return $result;
+	}
+
+	/**
+	 * Fetches the white-label branding config for this license from the AutomagicWP API.
+	 *
+	 * Returns an object with the following properties (all nullable):
+	 *   - clientName            (string|null)  Name shown in the plugin's admin UI.
+	 *   - primaryColor          (string|null)  Brand colour hex, e.g. "#1A56DB".
+	 *   - primaryForegroundColor (string|null) Text colour for use on primaryColor backgrounds.
+	 *   - metadata              (object)       Arbitrary extra fields set in the dashboard
+	 *                                          (logo_url, support_email, features, etc.).
+	 *
+	 * Returns false if no `secret` is configured, the request fails, or the key is not a
+	 * license key.
+	 *
+	 * The result is cached in a WordPress transient for 5 minutes to avoid hammering the API
+	 * on every admin page load. Pass `$force = true` to bypass the cache.
+	 *
+	 * @param bool $force Skip the transient cache and fetch fresh data.
+	 *
+	 * @return object|false
+	 */
+	public function get_config( bool $force = false ) {
+		if ( empty( $this->options['secret'] ) ) {
+			return false;
+		}
+
+		$cache_key = 'amwp_config_' . md5( $this->options['secret'] );
+
+		if ( ! $force ) {
+			$cached = get_transient( $cache_key );
+			if ( false !== $cached ) {
+				return $cached;
+			}
+		}
+
+		$headers = array(
+			'Accept'        => 'application/json',
+			'Authorization' => 'Bearer ' . $this->options['secret'],
+		);
+
+		$response = wp_remote_get( $this->options['config_url'], array( 'headers' => $headers ) );
+
+		if ( is_wp_error( $response ) || wp_remote_retrieve_response_code( $response ) !== 200 ) {
+			// phpcs:ignore
+			error_log( 'AutomagicWP config request failed: ' . wp_json_encode( $response ) );
+			return false;
+		}
+
+		$config = json_decode( wp_remote_retrieve_body( $response ) );
+
+		if ( false === $config || null === $config ) {
+			return false;
+		}
+
+		// Ensure metadata is always an object, never null.
+		if ( ! isset( $config->metadata ) || null === $config->metadata ) {
+			$config->metadata = new stdClass();
+		}
+
+		set_transient( $cache_key, $config, 5 * MINUTE_IN_SECONDS );
+
+		return $config;
 	}
 
 	/**
