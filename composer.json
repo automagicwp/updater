@@ -1,7 +1,7 @@
 {
     "name": "automagicwp/updater",
     "description": "A simple and lightweight package to update your WordPress plugins from AutomagicWP.",
-    "version": "1.1.0",
+    "version": "3.1.0",
     "homepage": "https://www.automagicwp.com",
     "type": "library",
     "license": "GPL-3.0-or-later",
